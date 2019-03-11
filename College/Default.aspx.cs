@@ -17,7 +17,7 @@ namespace College
 {
     public partial class Default : System.Web.UI.Page
     {
-        string sortDirection = "ASC";
+        SortDirection direction = SortDirection.Ascending;
         string sortItem = "StudentName";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -38,64 +38,55 @@ namespace College
 
         public void load_data()
         {
-            //string searchBox;
-            //if (TextBoxSearch.Text == "")
-            //    searchBox = " ";
-            //else
-            //    searchBox = TextBoxSearch.Text;
-
-            //if (DropDownList3.SelectedValue == "Ascending")
-            //{
-            //    sortDirection = "ASC";
-            //    sortItem = DropDownList2.SelectedValue;
-            //}
-            //else if (DropDownList3.SelectedValue == "Descending")
-            //{
-            //    sortDirection = "DESC";
-            //    sortItem = DropDownList2.SelectedValue;
-            //}
-
-            //SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UniversityDBConnectionString"].ConnectionString);
-            //conn.Open();
-            //string selectQuery = "SELECT * FROM Student WHERE (StudentName LIKE '%' + @StudentName + '%') ORDER BY " + sortItem + " " + sortDirection;
-            //SqlCommand cmd = new SqlCommand(selectQuery, conn);
-            //cmd.Parameters.AddWithValue("@StudentName", searchBox);
-
-
-            //DataTable dt = new DataTable();
-            //SqlDataAdapter da = new SqlDataAdapter(cmd);
-            //da.Fill(dt);
-            //GridView1.DataSourceID = null;
-            //GridView1.DataSource = dt;
-            //GridView1.DataBind();
-
-            //conn.Close();
+            
             string apiUrl = "http://192.168.1.116/api/students";
             WebClient client = new WebClient();
             client.Headers["Content-type"] = "application/json";
             client.Encoding = Encoding.UTF8;
             string json = client.DownloadString(apiUrl);
             List<Student> lst = (new JavaScriptSerializer()).Deserialize<List<Student>>(json);
+            List<Student> tempList;
 
             GridView1.DataSourceID = null;
-            GridView1.DataSource = lst;
+
+            if (DropDownList3.SelectedValue == "Descending")
+            {
+                if (DropDownList2.SelectedValue == "StudentId")
+                    tempList = lst.OrderByDescending(o => o.StudentId).ToList();
+                else if (DropDownList2.SelectedValue == "StudentEmail")
+                    tempList = lst.OrderByDescending(o => o.StudentEmail).ToList();
+                else if (DropDownList2.SelectedValue == "StudentPhone")
+                    tempList = lst.OrderByDescending(o => o.StudentPhone).ToList();
+                else if (DropDownList2.SelectedValue == "GroupCode")
+                    tempList = lst.OrderByDescending(o => o.GroupCode).ToList();
+                else
+                    tempList = lst.OrderByDescending(o => o.StudentName).ToList();
+            }
+            else
+            {
+                if (DropDownList2.SelectedValue == "StudentId")
+                    tempList = lst.OrderBy(o => o.StudentId).ToList();
+                else if (DropDownList2.SelectedValue == "StudentEmail")
+                    tempList = lst.OrderBy(o => o.StudentEmail).ToList();
+                else if (DropDownList2.SelectedValue == "StudentPhone")
+                    tempList = lst.OrderBy(o => o.StudentPhone).ToList();
+                else if (DropDownList2.SelectedValue == "GroupCode")
+                    tempList = lst.OrderBy(o => o.GroupCode).ToList();
+                else
+                    tempList = lst.OrderBy(o => o.StudentName).ToList();
+            }
+
+
+            GridView1.DataSource = tempList.Where(x=>x.StudentName.Contains(TextBoxSearch.Text)).ToList();
+
             GridView1.DataBind();
+
+            
         }
 
         protected void LinkButtonInsert_Click(object sender, EventArgs e)
         {
-            //SqlDataSource1.InsertParameters["StudentID"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextBoxID")).Text;
-
-            //SqlDataSource1.InsertParameters["StudentName"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextBoxName")).Text;
-
-            //SqlDataSource1.InsertParameters["StudentPass"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextBoxPassword")).Text;
-
-            //SqlDataSource1.InsertParameters["StudentPhone"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextBoxPhone")).Text;
-
-            //SqlDataSource1.InsertParameters["StudentEmail"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextBoxEmail")).Text;
-
-            //SqlDataSource1.InsertParameters["GroupCode"].DefaultValue = ((DropDownList)GridView1.FooterRow.FindControl("DropDownListGroupCode")).SelectedValue;
-            //SqlDataSource1.Insert();
+           
             Boolean trigger = false;
 
             string id = ((TextBox)GridView1.FooterRow.FindControl("TextBoxID")).Text;
@@ -145,20 +136,9 @@ namespace College
 
             if (!trigger)
             {
-                //SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UniversityDBConnectionString"].ConnectionString);
-                //conn.Open();
-                //string insertQuery = "insert into Student values (@id, @name, @pass, @phone, @email, @group, @delete)";
-                //SqlCommand cmd = new SqlCommand(insertQuery, conn);
-                //cmd.Parameters.AddWithValue("@id", id);
-                //cmd.Parameters.AddWithValue("@name", name);
-                //cmd.Parameters.AddWithValue("@pass", pass);
-                //cmd.Parameters.AddWithValue("@phone", phone);
-                //cmd.Parameters.AddWithValue("@email", email);
-                //cmd.Parameters.AddWithValue("@group", groupcode);
-                //cmd.Parameters.AddWithValue("@delete", 0);
+                
 
-                //cmd.ExecuteNonQuery();
-                //conn.Close();
+                
                 string apiurl = "http://192.168.1.116/api/students";
                 var client = new WebClient();
                 //client.Headers["Content-type"] = "application/json";
@@ -197,17 +177,14 @@ namespace College
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            //SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UniversityDBConnectionString"].ConnectionString);
-            //conn.Open();
-            //string deleteQuery = "delete from Student where StudentId =  @id";
-            //SqlCommand cmd = new SqlCommand(deleteQuery, conn);
-            //cmd.Parameters.AddWithValue("@id", ((Label)GridView1.Rows[e.RowIndex].FindControl("itemStudId")).Text);
-            //cmd.ExecuteNonQuery();
-            //conn.Close();
+            
+            string apiurl = "http://192.168.1.116/api/students/";
+            var client = new WebClient();
 
-            //GridView1.DataSourceID = null;
-
-
+            var stud = new NameValueCollection();
+            stud["StudentName"] = "anything";
+            //client.DownloadString(apiurl + ((Label)GridView1.Rows[e.RowIndex].FindControl("itemStudId")).Text,"DELETE");
+            client.UploadValues(apiurl + ((Label)GridView1.Rows[e.RowIndex].FindControl("itemStudId")).Text, "DELETE", stud);
             load_data();
         }
 
@@ -220,21 +197,29 @@ namespace College
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["UniversityDBConnectionString"].ConnectionString);
-            conn.Open();
-            string updateQuery = "update Student set StudentName = @studname, StudentPass = @studpass, StudentPhone = @studphone, StudentEmail = @studemail, GroupCode = @group where StudentId =  @id";
-            SqlCommand cmd = new SqlCommand(updateQuery, conn);
-            cmd.Parameters.AddWithValue("@studname", ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox1")).Text);
-            cmd.Parameters.AddWithValue("@studpass", ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox")).Text);
-            cmd.Parameters.AddWithValue("@studemail", ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox3")).Text);
-            cmd.Parameters.AddWithValue("@studphone", ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox2")).Text);
-            cmd.Parameters.AddWithValue("@group", ((DropDownList)GridView1.Rows[e.RowIndex].FindControl("DropDownList1")).SelectedValue);
-            cmd.Parameters.AddWithValue("@id", ((Label)GridView1.Rows[e.RowIndex].FindControl("LabelStudId")).Text);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            string id = ((Label)GridView1.Rows[e.RowIndex].FindControl("LabelStudId")).Text;
+            string name = ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox1")).Text;
+            string pass= ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox")).Text;
+            string phone = ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox2")).Text;
+            string email = ((TextBox)GridView1.Rows[e.RowIndex].FindControl("TextBox3")).Text;
+            string group = ((DropDownList)GridView1.Rows[e.RowIndex].FindControl("DropDownList1")).SelectedValue;
 
+            string apiurl = "http://192.168.1.116/api/students/";
+            var client = new WebClient();
+            
 
+            var stud = new NameValueCollection();
+            stud["StudentId"] = id;
+            stud["StudentName"] = name;
+            stud["StudentPass"] = pass;
+            stud["StudentPhone"] = phone;
+            stud["StudentEmail"] = email;
+            stud["GroupCode"] = group;
+            stud["Deleted"] = "false";
+            //string studJson = "{\"StudentName:\""+name+", \"StudentPass:\""+pass+", \"StudentPhone:\""+phone+", \"StudentEmail:\""+email+", \"GroupCode:\""+group+"}";
 
+            client.UploadValues(apiurl + id, "PUT", stud);
+           
             GridView1.EditIndex = -1;
             load_data();
         }
@@ -255,31 +240,11 @@ namespace College
 
         protected void DropDownList2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            sortItem = DropDownList2.SelectedValue;
-            if (DropDownList3.SelectedValue == "Ascending")
-            {
-                sortDirection = "ASC";
-            }
-            else if (DropDownList3.SelectedValue == "Descending")
-            {
-                sortDirection = "DESC";
-            }
-
             load_data();
         }
 
         protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (DropDownList3.SelectedValue == "Ascending")
-            {
-                sortDirection = "ASC";
-                sortItem = DropDownList2.SelectedValue;
-            }
-            else if (DropDownList3.SelectedValue == "Descending")
-            {
-                sortDirection = "DESC";
-                sortItem = DropDownList2.SelectedValue;
-            }
             load_data();
         }
 
@@ -288,5 +253,14 @@ namespace College
             GridView1.PageIndex = e.NewPageIndex;
             load_data();
         }
+
+        protected void GridView1_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            
+            load_data();
+            
+
+        }
     }
+
 }

@@ -19,6 +19,7 @@
             $("#ButtonSearch").click();
 }
 </script>
+
    
 <%--<body>--%>
     <%--<form id="form1" runat="server">--%>
@@ -61,7 +62,7 @@
             
 
             <br />
-            <asp:GridView ID="GridView1" runat="server" EmptyDataText="No Record Found" AutoGenerateColumns="False" OnPageIndexChanging="GridView1_PageIndexChanging" DataKeyNames="StudentID" ShowFooter="True" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical" AllowPaging="True" PageSize="10" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" OnRowCancelingEdit="GridView1_RowCancelingEdit">
+            <asp:GridView ID="GridView1" runat="server" OnSorting="GridView1_Sorting" EmptyDataText="No Record Found" AutoGenerateColumns="False" OnPageIndexChanging="GridView1_PageIndexChanging" DataKeyNames="StudentID" ShowFooter="True" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical" AllowPaging="True" PageSize="10" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" OnRowCancelingEdit="GridView1_RowCancelingEdit">
                 <AlternatingRowStyle BackColor="#efefef" />
                 <Columns>
                     

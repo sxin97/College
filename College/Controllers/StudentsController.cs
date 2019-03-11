@@ -17,16 +17,20 @@ namespace StudentService.Controllers
         {
             using (UniversityDBEntities entities = new UniversityDBEntities())
             {
+                Boolean delete = false;
                 entities.Configuration.ProxyCreationEnabled = false;
-                return entities.Students.ToList<Student>();
-                //return entities.Students.Select(x => new Student
-                //{
-                //    StudentName = x.StudentName,
-                //    StudentEmail = x.StudentEmail,
-                //    GroupCode = x.GroupCode
+                //return entities.Students.ToList<Student>();
 
-                //}).ToList();
-                
+                return entities.Students.Where(s => s.Deleted == delete).OrderBy(s=>s.GroupCode).ToList();
+               
+
+            }
+        }
+        public Student Get(string id)
+        {
+            using (UniversityDBEntities entities = new UniversityDBEntities())
+            {
+                return entities.Students.FirstOrDefault(e => e.StudentId == id);
             }
         }
         public void Post([FromBody]Student student)
@@ -54,6 +58,7 @@ namespace StudentService.Controllers
                 entities.SaveChanges();
             }
         }
+     
         public void Delete(string id)
         {
             using(UniversityDBEntities entities = new UniversityDBEntities())
@@ -64,12 +69,6 @@ namespace StudentService.Controllers
                 entities.SaveChanges();
             }
         }
-        public Student Get(string id)
-        {
-            using (UniversityDBEntities entities = new UniversityDBEntities())
-            {
-                return entities.Students.FirstOrDefault(e => e.StudentId == id);
-            }
-        }
+        
     }
 }

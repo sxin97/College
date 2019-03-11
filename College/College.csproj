@@ -181,6 +181,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HDAPI.aspx.cs">
+      <DependentUpon>HDAPI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HDAPI.aspx.designer.cs">
+      <DependentUpon>HDAPI.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -202,6 +209,13 @@
     </Compile>
     <Compile Include="testRicoAPI.aspx.designer.cs">
       <DependentUpon>testRicoAPI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RiicoCRUD.aspx.cs">
+      <DependentUpon>RiicoCRUD.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RiicoCRUD.aspx.designer.cs">
+      <DependentUpon>RiicoCRUD.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +239,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="HDAPI.aspx" />
     <Content Include="Images\doge date.jpg" />
     <Content Include="Images\doge g.jpg" />
     <Content Include="Images\doge hotdog.jpg" />
@@ -262,6 +277,7 @@
     <Content Include="bootstrap\bootstrap.min.css.map" />
     <Content Include="bootstrap\bootstrap.min.js.map" />
     <Content Include="MasterPage.Master" />
+    <Content Include="RiicoCRUD.aspx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

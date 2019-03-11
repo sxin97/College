@@ -16,7 +16,7 @@ namespace College
         {
             if (!this.IsPostBack)
             {
-                this.puopulateGrid();
+                //this.puopulateGrid();
             }
         }
         public void puopulateGrid()
@@ -39,14 +39,5 @@ namespace College
             gvCustomers.DataBind();
         }
     }
-    public class Customer
-    {
-        public int Id { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerAddress { get; set; }
-        public string CustomerPhone { get; set; }
-        public string CustomerStatus { get; set; }
-
-
-    }
+    
 }

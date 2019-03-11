@@ -22,7 +22,7 @@ namespace College
         }
         private void PopulateGridView()
         {
-            string apiUrl = "http://192.168.1.116/api/students";
+            string apiUrl = "http://localhost:51569/api/students";
             //object input = new
             //{
             //    Name = txtName.Text.Trim(),
@@ -37,9 +37,9 @@ namespace College
             //gvCustomers.DataSource = (new JavaScriptSerializer()).Deserialize<List<Student>>(json);
             List<Student> lst = (new JavaScriptSerializer()).Deserialize<List<Student>>(json);
 
+            
 
-
-            gvCustomers.DataSource = lst; //(new JavaScriptSerializer()).Deserialize<List<Student>>(json);
+            gvCustomers.DataSource = lst.OrderBy(o => o.StudentName).ToList(); //(new JavaScriptSerializer()).Deserialize<List<Student>>(json);
             gvCustomers.DataBind();
         }
 
